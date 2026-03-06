@@ -6,6 +6,7 @@ import { buildAccountMethods } from './accountMethods';
 import { buildOrganizationMethods } from './organizationMethods';
 import { buildBulkDataMethods } from './bulkDataMethods';
 import { buildScanningMethods } from './scanningMethods';
+import { buildSearchMethods } from './searchMethods';
 
 export const buildCoreModule = (apiKey: string) => ({
   ...buildApiStatusMethods(SHODAN_CORE_URL, apiKey),
@@ -15,4 +16,5 @@ export const buildCoreModule = (apiKey: string) => ({
   ...buildOrganizationMethods(SHODAN_CORE_URL, apiKey),
   ...buildBulkDataMethods(SHODAN_CORE_URL, apiKey),
   ...buildScanningMethods(SHODAN_CORE_URL, apiKey),
+  ...buildSearchMethods(SHODAN_CORE_URL, apiKey),
 });
