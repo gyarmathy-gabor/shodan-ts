@@ -1,1 +1,1 @@
-shodan-api-v2
+A modern, strongly-typed Node.js client for the Shodan API with native ESM and CommonJS support.
