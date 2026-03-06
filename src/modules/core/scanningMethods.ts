@@ -1,19 +1,30 @@
 import { request } from '../../utils/fetcher';
-import { ScanPayload, ScanResponse, ScanService } from '../../types/scan';
+import {
+  ScanPayload,
+  ScanStatusResponse,
+  ScanService,
+  ActiveScansResponse,
+  RequestScanResponse,
+  InternetScanResponse,
+  ListProtocolsResponse,
+  ListPortsResponse,
+} from '../../types/scan';
 
 export const buildScanningMethods = (baseUrl: string, apiKey: string) => ({
   /**
    * This method returns a list of port numbers that the crawlers are looking for.
    */
-  listPorts: async () => {
+  listPorts: async (): Promise<ListPortsResponse> => {
     return await request(baseUrl, 'shodan/ports', apiKey);
   },
+
   /**
    * This method returns an object containing all the protocols that can be used when launching an Internet scan.
    */
-  listProtocols: async () => {
+  listProtocols: async (): Promise<ListProtocolsResponse> => {
     return await request(baseUrl, 'shodan/protocols', apiKey);
   },
+
   /**
    * Request Shodan to crawl an IP, netblock, or specific services.
    * Consumes 1 API scan credit per IP.
@@ -23,7 +34,7 @@ export const buildScanningMethods = (baseUrl: string, apiKey: string) => ({
    * 3. An object mapping IPs to specific services to scan, bypassing the default scan
    * (e.g., { "1.1.1.1": [[443, "https"], [53, "dns-udp"]] }).
    */
-  requestScan: async (targets: ScanPayload): Promise<ScanResponse> => {
+  requestScan: async (targets: ScanPayload): Promise<RequestScanResponse> => {
     let ipsPayload: string | Record<string, ScanService[]>;
 
     if (Array.isArray(targets)) {
@@ -38,6 +49,7 @@ export const buildScanningMethods = (baseUrl: string, apiKey: string) => ({
       body: { ips: ipsPayload },
     });
   },
+
   /**
    * RESTRICTED ENDPOINT: Crawl the Internet for a specific port and protocol.
    *
@@ -49,10 +61,25 @@ export const buildScanningMethods = (baseUrl: string, apiKey: string) => ({
    * @param port - The port that Shodan should crawl the Internet for.
    * @param protocol - The name of the protocol that should be used to interrogate the port. See /shodan/protocols for a list of supported protocols.
    */
-  scanInternet: async (port: number, protocol: string) => {
+  scanInternet: async (port: number, protocol: string): Promise<InternetScanResponse> => {
     return await request(baseUrl, 'shodan/scan/internet', apiKey, {
       method: 'POST',
       body: { port: port, protocol: protocol },
     });
+  },
+
+  /**
+   * Returns a listing of all the on-demand scans that are currently active on the account.
+   */
+  getScans: async (): Promise<ActiveScansResponse> => {
+    return await request(baseUrl, 'shodan/scans', apiKey);
+  },
+
+  /**
+   * Get the status of a scan request.
+   * @param scanId - The unique scan ID that was returned by /shodan/scan.
+   */
+  getScan: async (scanId: string): Promise<ScanStatusResponse> => {
+    return await request(baseUrl, `shodan/scan/${scanId}`, apiKey);
   },
 });
