@@ -1,4 +1,4 @@
-import { buildCoreModule } from './modules/core/index';
+import { buildCoreModule } from './modules/core';
 //import { buildStreamModule } from './modules/stream';
 import { buildTrendsModule } from './modules/trends';
 
