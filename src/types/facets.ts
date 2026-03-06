@@ -1,4 +1,4 @@
-export type ShodanFacet =
+export type TrendsFacet =
   | 'asn'
   | 'city'
   | 'country'

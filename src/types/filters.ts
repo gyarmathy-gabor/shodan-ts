@@ -1,4 +1,4 @@
-export type ShodanFilter =
+export type TrendsFilter =
   | 'all'
   | 'asn'
   | 'city'
@@ -44,4 +44,4 @@ export type ShodanFilter =
   | 'version'
   | 'vuln';
 
-export type ShodanFilterValue = ShodanFilter | `${ShodanFilter}:${string}` | string;
+export type TrendsFilterValue = TrendsFilter | `${TrendsFilter}:${string}` | string;

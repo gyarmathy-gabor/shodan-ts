@@ -1,6 +1,6 @@
 import { request } from '../../utils/fetcher';
-import { ShodanFacet } from '../../types/facets';
-import { ShodanFilterValue } from '../../types/filters';
+import { TrendsFacet } from '../../types/facets';
+import { TrendsFilterValue } from '../../types/filters';
 
 export const buildHistoricalDataMethods = (baseUrl: string, apiKey: string) => ({
   /**
@@ -18,8 +18,8 @@ export const buildHistoricalDataMethods = (baseUrl: string, apiKey: string) => (
    * @param facetLimit - The number of results to return for the facet breakdown (e.g., 10 to get the top 10 values).
    */
   searchHistoricalData: async (
-    filterType: ShodanFilterValue,
-    facetType?: ShodanFacet,
+    filterType: TrendsFilterValue,
+    facetType?: TrendsFacet,
     facetLimit?: number,
   ) => {
     const facet = facetType
