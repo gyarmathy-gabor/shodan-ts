@@ -1,8 +1,25 @@
+import { SearchFacetParam } from './facets';
+
+/**
+ * Options for querying host information.
+ */
 export interface HostInformationOptions {
+  /**
+   * True if all historical banners should be returned.
+   * @default false
+   */
   history?: boolean;
+
+  /**
+   * When set to `true`, only the list of ports and general host information are returned, excluding detailed banners.
+   * @default false
+   */
   minify?: boolean;
 }
 
+/**
+ * Geographic and location information associated with a Shodan host.
+ */
 export interface ShodanLocation {
   city: string | null;
   region_code: string | null;
@@ -15,24 +32,83 @@ export interface ShodanLocation {
   country_code: string | null;
   latitude: number | null;
 }
+
+/**
+ * Detailed information about a specific vulnerability (CVE).
+ */
+export interface ShodanVulnerability {
+  /**
+   * Whether the vulnerability has been verified by Shodan.
+   */
+  verified: boolean;
+  /**
+   * A brief description of the vulnerability.
+   */
+  summary: string;
+  /**
+   * A list of external URLs for further reading.
+   */
+  references: string[];
+  /**
+   * The CVSS score (usually v3).
+   */
+  cvss: number | null;
+  /**
+   * The version of the CVSS score used.
+   */
+  cvss_version?: number | string;
+  /**
+   * The CVSS v2 score, if available.
+   */
+  cvss_v2?: number | null;
+  /**
+   * The Exploit Prediction Scoring System (EPSS) score.
+   */
+  epss?: number;
+  /**
+   * The percentile ranking of the EPSS score.
+   */
+  ranking_epss?: number;
+  /**
+   * Known Exploited Vulnerabilities (CISA KEV catalog status).
+   */
+  kev?: boolean;
+  /**
+   * Name of any associated ransomware campaign.
+   */
+  ransomware_campaign?: string;
+}
+
+/**
+ * Represents a single service or banner found on a specific port for a host.
+ * Depending on the service type (HTTP, SSH, SSL, etc.), additional properties may be present.
+ */
 export interface ShodanService {
   ip: number;
   ip_str: string;
   port: number;
   transport: string | null;
   timestamp: string | null;
+  /**
+   * The actual banner data/response returned by the service.
+   */
   data: string | null;
-  hash: number | null;
-  asn: string | null;
-  isp: string | null;
-  org: string | null;
-  domains: string[];
+  hash?: number | null;
+  asn?: string | null;
+  isp?: string | null;
+  org?: string | null;
+  domains?: string[];
+  vulns?: Record<string, ShodanVulnerability>;
   hostnames: string[];
   location: ShodanLocation;
   _shodan: unknown;
   [key: string]: unknown;
 }
 
+/**
+ * The response returned when querying information about a specific host IP.
+ * Contains general information, vulnerabilities, location data, and an array of all services found.
+ */
 export interface HostInformationResponse {
   ip: number;
   ip_str: string;
@@ -52,6 +128,96 @@ export interface HostInformationResponse {
   hostnames: string[];
   domains: string[];
   ports: number[];
+  /**
+   * An array of potential CVE vulnerabilities associated with the host.
+   * @note If no vulnerabilities are inferred, this property is completely omitted from the response.
+   */
+  vulns?: string[];
   data: ShodanService[];
   [key: string]: unknown; //Catch-all for any additional properties
+}
+
+/**
+ * The response returned when breaking a Shodan search query into tokens.
+ */
+export interface SearchTokensResponse {
+  /**
+   * An object containing the parsed attributes and their values (e.g., { ports: [22] }).
+   */
+  attributes: Record<string, unknown[]>;
+
+  /**
+   * Any errors encountered while parsing the query.
+   */
+  errors: string[];
+
+  /**
+   * The base search string without the specific filters.
+   */
+  string: string;
+
+  /**
+   * An array of the filter names used in the query.
+   */
+  filters: string[];
+}
+
+/**
+ * Optional parameters for the searchHosts method.
+ */
+export interface SearchOptions {
+  /**
+   * The parameter format accepted by Search methods for facets.
+   * Can be a single facet string, a single facet with a count, or an array of either.   * - Look at {@link SearchFacetParam} for the full type definition.
+   * @example "country"
+   * @example "country:100"
+   * @example ["country:100", "os", "port:50"]
+   */
+  facets?: SearchFacetParam;
+
+  /**
+   * The page number to page through results 100 at a time.
+   * @default 1
+   */
+  page?: number;
+
+  /**
+   * Whether to truncate some of the larger fields.
+   * @default true
+   */
+  minify?: boolean;
+
+  /**
+   * An array of fields to return in the response.
+   * @default undefined
+   * @example ["http.title", "http.favicon.hash"]
+   */
+  fields?: string[];
+}
+
+/**
+ * Optional parameters for the countHosts method.
+ */
+export interface CountOptions {
+  facets?: SearchFacetParam;
+}
+
+export interface FacetResultItem {
+  count: number;
+  value: string | number;
+}
+
+/**
+ * The response returned when counting the total number of hosts matching a query.
+ */
+export interface CountHostsResponse {
+  total: number;
+  matches: never[];
+  facets?: Record<string, FacetResultItem[]>;
+}
+
+export interface SearchHostsResponse {
+  total: number;
+  matches: ShodanService[];
+  facets?: Record<string, FacetResultItem[]>;
 }
