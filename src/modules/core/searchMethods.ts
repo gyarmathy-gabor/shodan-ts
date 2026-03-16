@@ -1,21 +1,24 @@
 import { request } from '../../utils/fetcher';
+import { HostInformationResponse, SearchTokensResponse } from '../../types/search';
+import { SearchFilter } from '../../types/filters';
+import { SearchFacet } from '../../types/facets';
 import {
   CountOptions,
   HostInformationOptions,
-  HostInformationResponse,
   SearchOptions,
-  SearchTokensResponse,
-} from '../../types/search';
-import { SearchFilter } from '../../types/filters';
-import { SearchFacet } from '../../types/facets';
+  ShodanClientOptions,
+  ShodanRequestOptions,
+} from '../../types/options';
 
-export const buildSearchMethods = (baseUrl: string, apiKey: string) => ({
+export const buildSearchMethods = (
+  baseUrl: string,
+  apiKey: string,
+  globalOptions: Required<ShodanClientOptions>,
+) => ({
   /**
    * Returns all services that have been found on the given host IP.
    * @param ip - Host IP address
-   * @param options - optional parameters:
-   *  - history: True if all historical banners should be returned (default: False)
-   *  - minify: True to only return the list of ports and the general host information, no banners. (default: False)
+   * @param options - Optional configuration for this request.
    * @remarks
    * Note: The official Shodan API returns a 404 error if you set history to true and the IP has no historical banners.
    * It also returns a 404 error when it can't find anything about the given ip.
@@ -27,7 +30,9 @@ export const buildSearchMethods = (baseUrl: string, apiKey: string) => ({
   ): Promise<HostInformationResponse | null> => {
     try {
       return await request(baseUrl, `shodan/host/${ip}`, apiKey, {
-        params: options as Record<string, boolean | undefined>,
+        params: { history: options?.history, minify: options?.minify },
+        timeout: options?.timeout ?? globalOptions.timeout,
+        retries: options?.retries ?? globalOptions.retries,
       });
     } catch (error) {
       if (error instanceof Error && error.message.includes('404')) {
@@ -44,14 +49,15 @@ export const buildSearchMethods = (baseUrl: string, apiKey: string) => ({
    * @remarks This method does not consume query credits.
    *
    * @param query - Shodan search query (e.g., "product:nginx")
-   * @param options - optional parameters:
-   * - facets: A list of properties to get summary information on. e.g., country.
+   * @param options - Optional configuration for this request.
    */
   countHosts: async (query: string, options?: CountOptions) => {
     const { facets } = options || {};
     const facetsFormatted = Array.isArray(facets) ? facets.join(',') : facets;
     return await request(baseUrl, 'shodan/host/count', apiKey, {
       params: { query: query, facets: facetsFormatted },
+      timeout: options?.timeout ?? globalOptions.timeout,
+      retries: options?.retries ?? globalOptions.retries,
     });
   },
 
@@ -65,11 +71,7 @@ export const buildSearchMethods = (baseUrl: string, apiKey: string) => ({
    * 2. You access results past the 1st page (1 credit is deducted for every 100 results past page 1).
    *
    * @param query - Shodan search query (e.g., "product:nginx")
-   * @param options - optional parameters:
-   * - facets: A list of properties to get summary information on. e.g., country.
-   * - page: The page number to return. (default: 1)
-   * - minify: Whether to truncate some of the larger fields (default: True)
-   * - fields: An array of fields to return in the search results. Example tags: "http.title", "http.favicon.hash"
+   * @param options - Optional configuration for this request.
    */
   searchHosts: async (query: string, options?: SearchOptions) => {
     const { facets, page, minify, fields } = options || {};
@@ -83,28 +85,44 @@ export const buildSearchMethods = (baseUrl: string, apiKey: string) => ({
         minify: minify,
         fields: fieldsFormatted,
       },
+      timeout: options?.timeout ?? globalOptions.timeout,
+      retries: options?.retries ?? globalOptions.retries,
     });
   },
   /**
    * List all search facets.
    * This method returns a list of facets that can be used to get a breakdown of the top values for a property.
    */
-  getSearchFacets: async (): Promise<SearchFacet[]> =>
-    await request(baseUrl, `shodan/host/search/facets`, apiKey),
+  getSearchFacets: async (options?: ShodanRequestOptions): Promise<SearchFacet[]> =>
+    await request(baseUrl, `shodan/host/search/facets`, apiKey, {
+      timeout: options?.timeout ?? globalOptions.timeout,
+      retries: options?.retries ?? globalOptions.retries,
+    }),
 
   /**
    * List all filters that can be used when searching.
    * This method returns a list of search filters that can be used in the search query.
    */
-  getSearchFilters: async (): Promise<SearchFilter[]> =>
-    await request(baseUrl, `shodan/host/search/filters`, apiKey),
+  getSearchFilters: async (options?: ShodanRequestOptions): Promise<SearchFilter[]> =>
+    await request(baseUrl, `shodan/host/search/filters`, apiKey, {
+      timeout: options?.timeout ?? globalOptions.timeout,
+      retries: options?.retries ?? globalOptions.retries,
+    }),
 
   /**
    * Break the search query into tokens.
    * - This method lets you determine which filters are being used by the query string
    * and what parameters were provided to the filters.
    * @param query - The Shodan search query to parse (e.g., "Raspbian port:22").
+   * @param options - Optional configuration for this request.
    */
-  getSearchTokens: async (query: string): Promise<SearchTokensResponse> =>
-    await request(baseUrl, `shodan/host/search/tokens`, apiKey, { params: { query: query } }),
+  getSearchTokens: async (
+    query: string,
+    options?: ShodanRequestOptions,
+  ): Promise<SearchTokensResponse> =>
+    await request(baseUrl, `shodan/host/search/tokens`, apiKey, {
+      params: { query: query },
+      timeout: options?.timeout ?? globalOptions.timeout,
+      retries: options?.retries ?? globalOptions.retries,
+    }),
 });

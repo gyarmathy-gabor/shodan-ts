@@ -1,17 +1,16 @@
 import { request } from '../../utils/fetcher';
 import { ShodanClientOptions, ShodanRequestOptions } from '../../types/options';
 
-export const buildAccountMethods = (
+export const buildAlertMethods = (
   baseUrl: string,
   apiKey: string,
   globalOptions: Required<ShodanClientOptions>,
 ) => ({
   /**
-   * Returns information about the Shodan account linked to this API key.
-   * @param options - Optional configuration for this request.
+   * Temporary method here
    */
-  getProfile: async (options?: ShodanRequestOptions) => {
-    return await request(baseUrl, 'account/profile', apiKey, {
+  createAlert: async (options: ShodanRequestOptions) => {
+    return await request(baseUrl, 'shodan/alert', apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
     });

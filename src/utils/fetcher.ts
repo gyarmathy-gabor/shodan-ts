@@ -4,6 +4,8 @@ interface RequestOptions {
   method?: HttpMethod;
   body?: unknown;
   params?: Record<string, string | number | boolean | undefined>;
+  timeout?: number;
+  retries?: number;
 }
 
 export async function request<T>(
@@ -12,7 +14,7 @@ export async function request<T>(
   apikey: string,
   options: RequestOptions = {},
 ): Promise<T> {
-  const { method = 'GET', body, params } = options;
+  const { method = 'GET', body, params, timeout, retries = 0 } = options;
 
   const cleanEndpoint = endpoint.replace(/^\//, '');
 
@@ -26,19 +28,42 @@ export async function request<T>(
       }
     });
   }
+  let attempt = 0;
+  while (attempt <= retries) {
+    const controller = new AbortController();
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
-  const response = await fetch(url.toString(), {
-    method,
-    ...(body
-      ? {
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-        }
-      : {}),
-  });
+    if (timeout) {
+      timeoutId = setTimeout(() => controller.abort(), timeout);
+    }
+    try {
+      const response = await fetch(url.toString(), {
+        method,
+        signal: controller.signal,
+        ...(body
+          ? {
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(body),
+            }
+          : {}),
+      });
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
 
-  if (!response.ok) {
-    throw new Error(`Shodan API Error: ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`Shodan API Error: ${response.status}`);
+      }
+      return response.json() as Promise<T>;
+    } catch (error) {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      attempt++;
+      if (attempt > retries) {
+        throw error;
+      }
+    }
   }
-  return response.json() as Promise<T>;
+  throw new Error('Unreachable: Max retries reached');
 }

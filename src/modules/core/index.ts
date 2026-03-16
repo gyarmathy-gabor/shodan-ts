@@ -7,14 +7,17 @@ import { buildOrganizationMethods } from './organizationMethods';
 import { buildBulkDataMethods } from './bulkDataMethods';
 import { buildScanningMethods } from './scanningMethods';
 import { buildSearchMethods } from './searchMethods';
+import { buildAlertMethods } from './alertMethods';
+import { ShodanClientOptions } from '../../types/options';
 
-export const buildCoreModule = (apiKey: string) => ({
-  ...buildApiStatusMethods(SHODAN_CORE_URL, apiKey),
-  ...buildUtilityMethods(SHODAN_CORE_URL, apiKey),
-  ...buildDnsMethods(SHODAN_CORE_URL, apiKey),
-  ...buildAccountMethods(SHODAN_CORE_URL, apiKey),
-  ...buildOrganizationMethods(SHODAN_CORE_URL, apiKey),
-  ...buildBulkDataMethods(SHODAN_CORE_URL, apiKey),
-  ...buildScanningMethods(SHODAN_CORE_URL, apiKey),
-  ...buildSearchMethods(SHODAN_CORE_URL, apiKey),
+export const buildCoreModule = (apiKey: string, options: Required<ShodanClientOptions>) => ({
+  ...buildApiStatusMethods(SHODAN_CORE_URL, apiKey, options),
+  ...buildUtilityMethods(SHODAN_CORE_URL, apiKey, options),
+  ...buildDnsMethods(SHODAN_CORE_URL, apiKey, options),
+  ...buildAccountMethods(SHODAN_CORE_URL, apiKey, options),
+  ...buildOrganizationMethods(SHODAN_CORE_URL, apiKey, options),
+  ...buildBulkDataMethods(SHODAN_CORE_URL, apiKey, options),
+  ...buildScanningMethods(SHODAN_CORE_URL, apiKey, options),
+  ...buildSearchMethods(SHODAN_CORE_URL, apiKey, options),
+  ...buildAlertMethods(SHODAN_CORE_URL, apiKey, options),
 });

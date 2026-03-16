@@ -1,22 +1,3 @@
-import { SearchFacetParam } from './facets';
-
-/**
- * Options for querying host information.
- */
-export interface HostInformationOptions {
-  /**
-   * True if all historical banners should be returned.
-   * @default false
-   */
-  history?: boolean;
-
-  /**
-   * When set to `true`, only the list of ports and general host information are returned, excluding detailed banners.
-   * @default false
-   */
-  minify?: boolean;
-}
-
 /**
  * Geographic and location information associated with a Shodan host.
  */
@@ -160,46 +141,6 @@ export interface SearchTokensResponse {
    * An array of the filter names used in the query.
    */
   filters: string[];
-}
-
-/**
- * Optional parameters for the searchHosts method.
- */
-export interface SearchOptions {
-  /**
-   * The parameter format accepted by Search methods for facets.
-   * Can be a single facet string, a single facet with a count, or an array of either.   * - Look at {@link SearchFacetParam} for the full type definition.
-   * @example "country"
-   * @example "country:100"
-   * @example ["country:100", "os", "port:50"]
-   */
-  facets?: SearchFacetParam;
-
-  /**
-   * The page number to page through results 100 at a time.
-   * @default 1
-   */
-  page?: number;
-
-  /**
-   * Whether to truncate some of the larger fields.
-   * @default true
-   */
-  minify?: boolean;
-
-  /**
-   * An array of fields to return in the response.
-   * @default undefined
-   * @example ["http.title", "http.favicon.hash"]
-   */
-  fields?: string[];
-}
-
-/**
- * Optional parameters for the countHosts method.
- */
-export interface CountOptions {
-  facets?: SearchFacetParam;
 }
 
 export interface FacetResultItem {
