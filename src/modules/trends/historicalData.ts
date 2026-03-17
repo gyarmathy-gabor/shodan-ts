@@ -1,7 +1,11 @@
 import { request } from '../../utils/fetcher';
 import { TrendsFacetValue } from '../../types/facets';
 import { TrendsFilterValue } from '../../types/filters';
-import { ShodanClientOptions, ShodanRequestOptions } from '../../types/options';
+import {
+  SearchHistoricalDataOptions,
+  ShodanClientOptions,
+  ShodanRequestOptions,
+} from '../../types/options';
 
 export const buildHistoricalDataMethods = (
   baseUrl: string,
@@ -31,10 +35,9 @@ export const buildHistoricalDataMethods = (
    */
   searchHistoricalData: async (
     filterType: TrendsFilterValue,
-    facetType?: TrendsFacetValue,
-    facetLimit?: number,
-    options?: ShodanRequestOptions,
+    options?: SearchHistoricalDataOptions,
   ) => {
+    const { facetType, facetLimit, timeout, retries } = options || {};
     const facet = facetType
       ? facetLimit !== undefined
         ? `${facetType}:${facetLimit}`
@@ -46,8 +49,8 @@ export const buildHistoricalDataMethods = (
         query: filterType,
         facets: facet,
       },
-      timeout: options?.timeout ?? globalOptions.timeout,
-      retries: options?.retries ?? globalOptions.retries,
+      timeout: timeout ?? globalOptions.timeout,
+      retries: retries ?? globalOptions.retries,
     });
   },
 });
