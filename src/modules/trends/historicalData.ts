@@ -1,5 +1,4 @@
 import { request } from '../../utils/fetcher';
-import { TrendsFacetValue } from '../../types/facets';
 import { TrendsFilterValue } from '../../types/filters';
 import {
   SearchHistoricalDataOptions,
