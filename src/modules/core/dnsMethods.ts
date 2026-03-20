@@ -13,7 +13,7 @@ export const buildDnsMethods = (
    */
   dnsInfo: async (hostname: string, options?: ShodanRequestOptions) => {
     const endpoint = `dns/domain/${hostname}`;
-    return await request(baseUrl, endpoint, apiKey, {
+    return request(baseUrl, endpoint, apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
     });
@@ -25,7 +25,7 @@ export const buildDnsMethods = (
    */
   dnsResolve: async (hostnames: string[] | string, options?: ShodanRequestOptions) => {
     const hosts: string = Array.isArray(hostnames) ? hostnames.join(',') : hostnames;
-    return await request(baseUrl, 'dns/resolve', apiKey, {
+    return request(baseUrl, 'dns/resolve', apiKey, {
       params: { hostnames: hosts },
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
@@ -38,7 +38,7 @@ export const buildDnsMethods = (
    */
   dnsReverse: async (ipAddresses: string[] | string, options?: ShodanRequestOptions) => {
     const ips: string = Array.isArray(ipAddresses) ? ipAddresses.join(',') : ipAddresses;
-    return await request(baseUrl, 'dns/reverse', apiKey, {
+    return request(baseUrl, 'dns/reverse', apiKey, {
       params: { ips: ips },
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,

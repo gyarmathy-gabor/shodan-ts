@@ -15,7 +15,7 @@ export const buildHistoricalDataMethods = (
    * This method returns a list of facets that can be used to get a breakdown of the top values for a property.
    */
   getTrendFacets: async (options?: ShodanRequestOptions) =>
-    await request(baseUrl, `api/v1/search/facets`, apiKey, {
+    request(baseUrl, `api/v1/search/facets`, apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
     }),
@@ -23,7 +23,7 @@ export const buildHistoricalDataMethods = (
    * This method returns a list of search filters that can be used in the search query.
    */
   getTrendFilters: async (options?: ShodanRequestOptions) =>
-    await request(baseUrl, `api/v1/search/filters`, apiKey, {
+    request(baseUrl, `api/v1/search/filters`, apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
     }),
@@ -43,7 +43,7 @@ export const buildHistoricalDataMethods = (
         : facetType
       : undefined;
 
-    return await request(baseUrl, `api/v1/search`, apiKey, {
+    return request(baseUrl, `api/v1/search`, apiKey, {
       params: {
         query: filterType,
         facets: facet,

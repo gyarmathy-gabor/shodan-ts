@@ -23,7 +23,7 @@ export const buildAlertMethods = (
     payload: CreateAlertPayload,
     options?: ShodanRequestOptions,
   ): Promise<NetworkAlert> => {
-    return await request(baseUrl, 'shodan/alert', apiKey, {
+    return request(baseUrl, 'shodan/alert', apiKey, {
       method: 'POST',
       body: payload,
       timeout: options?.timeout ?? globalOptions.timeout,
@@ -37,7 +37,7 @@ export const buildAlertMethods = (
    * @param options - Optional configuration for this request.
    */
   getAlert: async (alertId: string, options?: ShodanRequestOptions): Promise<NetworkAlert> => {
-    return await request(baseUrl, `shodan/alert/${alertId}/info`, apiKey, {
+    return request(baseUrl, `shodan/alert/${alertId}/info`, apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
     });
@@ -52,7 +52,7 @@ export const buildAlertMethods = (
     alertId: string,
     options?: ShodanRequestOptions,
   ): Promise<DeleteAlertResponse> => {
-    return await request(baseUrl, `shodan/alert/${alertId}`, apiKey, {
+    return request(baseUrl, `shodan/alert/${alertId}`, apiKey, {
       method: 'DELETE',
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
@@ -70,7 +70,7 @@ export const buildAlertMethods = (
     payload: ModifyAlertPayload,
     options?: ShodanRequestOptions,
   ): Promise<NetworkAlert> => {
-    return await request(baseUrl, `shodan/alert/${alertId}`, apiKey, {
+    return request(baseUrl, `shodan/alert/${alertId}`, apiKey, {
       method: 'POST',
       body: payload,
       timeout: options?.timeout ?? globalOptions.timeout,
@@ -83,7 +83,7 @@ export const buildAlertMethods = (
    * @param options - Optional configuration for this request.
    */
   getAlerts: async (options?: ShodanRequestOptions): Promise<NetworkAlert[]> => {
-    return await request(baseUrl, 'shodan/alert/info', apiKey, {
+    return request(baseUrl, 'shodan/alert/info', apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
     });
@@ -94,7 +94,7 @@ export const buildAlertMethods = (
    * @param options - Optional configuration for this request.
    */
   getTriggers: async (options?: ShodanRequestOptions): Promise<ShodanTrigger[]> => {
-    return await request(baseUrl, 'shodan/alert/triggers', apiKey, {
+    return request(baseUrl, 'shodan/alert/triggers', apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
     });
@@ -112,7 +112,7 @@ export const buildAlertMethods = (
     options?: ShodanRequestOptions,
   ): Promise<AlertActionResponse> => {
     const triggersString: string = Array.isArray(triggers) ? triggers.join(',') : triggers;
-    return await request(baseUrl, `shodan/alert/${alertId}/trigger/${triggersString}`, apiKey, {
+    return request(baseUrl, `shodan/alert/${alertId}/trigger/${triggersString}`, apiKey, {
       method: 'PUT',
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
@@ -131,7 +131,7 @@ export const buildAlertMethods = (
     options?: ShodanRequestOptions,
   ): Promise<AlertActionResponse> => {
     const triggersString: string = Array.isArray(triggers) ? triggers.join(',') : triggers;
-    return await request(baseUrl, `shodan/alert/${alertId}/trigger/${triggersString}`, apiKey, {
+    return request(baseUrl, `shodan/alert/${alertId}/trigger/${triggersString}`, apiKey, {
       method: 'DELETE',
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
@@ -152,7 +152,7 @@ export const buildAlertMethods = (
     service: string,
     options?: ShodanRequestOptions,
   ): Promise<AlertActionResponse> => {
-    return await request(
+    return request(
       baseUrl,
       `shodan/alert/${alertId}/trigger/${trigger}/ignore/${service}`,
       apiKey,
@@ -178,7 +178,7 @@ export const buildAlertMethods = (
     service: string,
     options?: ShodanRequestOptions,
   ): Promise<AlertActionResponse> => {
-    return await request(
+    return request(
       baseUrl,
       `shodan/alert/${alertId}/trigger/${trigger}/ignore/${service}`,
       apiKey,
@@ -203,7 +203,7 @@ export const buildAlertMethods = (
     notifierId: string,
     options?: ShodanRequestOptions,
   ) => {
-    return await request(baseUrl, `shodan/alert/${alertId}/notifier/${notifierId}`, apiKey, {
+    return request(baseUrl, `shodan/alert/${alertId}/notifier/${notifierId}`, apiKey, {
       method: 'PUT',
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
@@ -222,7 +222,7 @@ export const buildAlertMethods = (
     notifierId: string,
     options?: ShodanRequestOptions,
   ) => {
-    return await request(baseUrl, `shodan/alert/${alertId}/notifier/${notifierId}`, apiKey, {
+    return request(baseUrl, `shodan/alert/${alertId}/notifier/${notifierId}`, apiKey, {
       method: 'DELETE',
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,

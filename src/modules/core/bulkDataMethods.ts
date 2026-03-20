@@ -11,7 +11,7 @@ export const buildBulkDataMethods = (
    * @param options - Optional configuration for this request.
    */
   getAvailableDatasets: async (options?: ShodanRequestOptions) => {
-    return await request(baseUrl, '/shodan/data', apiKey, {
+    return request(baseUrl, '/shodan/data', apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
     });
@@ -22,7 +22,7 @@ export const buildBulkDataMethods = (
    * @param options - Optional configuration for this request.
    */
   getDataset: async (dataset: string, options?: ShodanRequestOptions) => {
-    return await request(baseUrl, `shodan/data/${dataset}`, apiKey, {
+    return request(baseUrl, `shodan/data/${dataset}`, apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
     });

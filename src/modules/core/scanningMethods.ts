@@ -21,7 +21,7 @@ export const buildScanningMethods = (
    * @param options - Optional configuration for this request.
    */
   listPorts: async (options?: ShodanRequestOptions): Promise<ListPortsResponse> => {
-    return await request(baseUrl, 'shodan/ports', apiKey, {
+    return request(baseUrl, 'shodan/ports', apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
     });
@@ -32,7 +32,7 @@ export const buildScanningMethods = (
    * @param options - Optional configuration for this request.
    */
   listProtocols: async (options?: ShodanRequestOptions): Promise<ListProtocolsResponse> => {
-    return await request(baseUrl, 'shodan/protocols', apiKey, {
+    return request(baseUrl, 'shodan/protocols', apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
     });
@@ -61,7 +61,7 @@ export const buildScanningMethods = (
     } else {
       ipsPayload = targets;
     }
-    return await request(baseUrl, 'shodan/scan', apiKey, {
+    return request(baseUrl, 'shodan/scan', apiKey, {
       method: 'POST',
       body: { ips: ipsPayload },
       timeout: options?.timeout ?? globalOptions.timeout,
@@ -86,7 +86,7 @@ export const buildScanningMethods = (
     protocol: string,
     options?: ShodanRequestOptions,
   ): Promise<InternetScanResponse> => {
-    return await request(baseUrl, 'shodan/scan/internet', apiKey, {
+    return request(baseUrl, 'shodan/scan/internet', apiKey, {
       method: 'POST',
       body: { port: port, protocol: protocol },
       timeout: options?.timeout ?? globalOptions.timeout,
@@ -99,7 +99,7 @@ export const buildScanningMethods = (
    * @param options - Optional configuration for this request.
    */
   getScans: async (options?: ShodanRequestOptions): Promise<ActiveScansResponse> => {
-    return await request(baseUrl, 'shodan/scans', apiKey, {
+    return request(baseUrl, 'shodan/scans', apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
     });
@@ -111,7 +111,7 @@ export const buildScanningMethods = (
    * @param options - Optional configuration for this request.
    */
   getScan: async (scanId: string, options?: ShodanRequestOptions): Promise<ScanStatusResponse> => {
-    return await request(baseUrl, `shodan/scan/${scanId}`, apiKey, {
+    return request(baseUrl, `shodan/scan/${scanId}`, apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
     });

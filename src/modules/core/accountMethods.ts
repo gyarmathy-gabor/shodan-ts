@@ -11,7 +11,7 @@ export const buildAccountMethods = (
    * @param options - Optional configuration for this request.
    */
   getProfile: async (options?: ShodanRequestOptions) => {
-    return await request(baseUrl, 'account/profile', apiKey, {
+    return request(baseUrl, 'account/profile', apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
     });

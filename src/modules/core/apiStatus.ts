@@ -10,7 +10,7 @@ export const buildApiStatusMethods = (
    * Returns information about the API plan belonging to the given API key.
    */
   getApiInfo: async (options?: ShodanRequestOptions) =>
-    await request(baseUrl, 'api-info', apiKey, {
+    request(baseUrl, 'api-info', apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
     }),

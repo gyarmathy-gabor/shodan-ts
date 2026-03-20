@@ -15,7 +15,7 @@ export const buildOrganizationMethods = (
    * @param options - Optional configuration for this request.
    */
   getOrganization: async (options?: ShodanRequestOptions) => {
-    return await request(baseUrl, 'org', apiKey, {
+    return request(baseUrl, 'org', apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
     });
@@ -28,7 +28,7 @@ export const buildOrganizationMethods = (
   addUserToOrganization: async (user: string, options?: AddUserToOrganizationOptions) => {
     const notify = options?.notify ?? true;
 
-    return await request(baseUrl, `org/member/${user}`, apiKey, {
+    return request(baseUrl, `org/member/${user}`, apiKey, {
       method: 'PUT',
       params: { notify: notify },
       timeout: options?.timeout ?? globalOptions.timeout,
@@ -41,7 +41,7 @@ export const buildOrganizationMethods = (
    * @param options - Optional configuration for this request.
    */
   deleteUserFromOrganization: async (user: string, options?: ShodanRequestOptions) => {
-    return await request(baseUrl, `org/member/${user}`, apiKey, {
+    return request(baseUrl, `org/member/${user}`, apiKey, {
       method: 'DELETE',
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,

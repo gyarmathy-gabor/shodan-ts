@@ -29,7 +29,7 @@ export const buildSearchMethods = (
     options?: HostInformationOptions,
   ): Promise<HostInformationResponse | null> => {
     try {
-      return await request(baseUrl, `shodan/host/${ip}`, apiKey, {
+      return request(baseUrl, `shodan/host/${ip}`, apiKey, {
         params: { history: options?.history, minify: options?.minify },
         timeout: options?.timeout ?? globalOptions.timeout,
         retries: options?.retries ?? globalOptions.retries,
@@ -54,7 +54,7 @@ export const buildSearchMethods = (
   countHosts: async (query: string, options?: CountOptions) => {
     const { facets } = options || {};
     const facetsFormatted = Array.isArray(facets) ? facets.join(',') : facets;
-    return await request(baseUrl, 'shodan/host/count', apiKey, {
+    return request(baseUrl, 'shodan/host/count', apiKey, {
       params: { query: query, facets: facetsFormatted },
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
@@ -77,7 +77,7 @@ export const buildSearchMethods = (
     const { facets, page, minify, fields } = options || {};
     const facetsFormatted = Array.isArray(facets) ? facets.join(',') : facets;
     const fieldsFormatted = Array.isArray(fields) ? fields.join(',') : fields;
-    return await request(baseUrl, 'shodan/host/search', apiKey, {
+    return request(baseUrl, 'shodan/host/search', apiKey, {
       params: {
         query: query,
         facets: facetsFormatted,
@@ -95,7 +95,7 @@ export const buildSearchMethods = (
    * @param options - Optional configuration for this request.
    */
   getSearchFacets: async (options?: ShodanRequestOptions): Promise<SearchFacet[]> =>
-    await request(baseUrl, `shodan/host/search/facets`, apiKey, {
+    request(baseUrl, `shodan/host/search/facets`, apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
     }),
@@ -106,7 +106,7 @@ export const buildSearchMethods = (
    * @param options - Optional configuration for this request.
    */
   getSearchFilters: async (options?: ShodanRequestOptions): Promise<SearchFilter[]> =>
-    await request(baseUrl, `shodan/host/search/filters`, apiKey, {
+    request(baseUrl, `shodan/host/search/filters`, apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
     }),
@@ -122,7 +122,7 @@ export const buildSearchMethods = (
     query: string,
     options?: ShodanRequestOptions,
   ): Promise<SearchTokensResponse> =>
-    await request(baseUrl, `shodan/host/search/tokens`, apiKey, {
+    request(baseUrl, `shodan/host/search/tokens`, apiKey, {
       params: { query: query },
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
