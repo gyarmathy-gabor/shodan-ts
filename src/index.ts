@@ -13,6 +13,14 @@ export const createShodanClient = (apiKey: string, options?: ShodanClientOptions
     retries: options?.retries ?? 0,
   };
 
+  if (finalOptions.retries < 0) {
+    throw new ShodanConfigError('Retries must be a non-negative number');
+  }
+
+  if (finalOptions.timeout < 0) {
+    throw new ShodanConfigError('Timeout must be a non-negative number');
+  }
+
   return {
     ...buildCoreModule(apiKey, finalOptions),
     //...buildStreamModule(apiKey),

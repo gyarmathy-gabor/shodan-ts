@@ -1,3 +1,5 @@
+import { ShodanApiError } from '../errors';
+
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 interface RequestOptions {
@@ -52,17 +54,40 @@ export async function request<T>(
       }
 
       if (!response.ok) {
-        throw new Error(`Shodan API Error: ${response.status}`);
+        let errorMessage = response.statusText || 'Unknown Shodan API Error';
+
+        try {
+          const errorBody = (await response.json()) as { error: string };
+          if (errorBody && errorBody.error) {
+            errorMessage = errorBody.error;
+          }
+        } catch {
+          // Ignore parse error
+        }
+
+        throw new ShodanApiError(
+          errorMessage,
+          response.status,
+          response.statusText,
+          url.toString(),
+        );
       }
       return response.json() as Promise<T>;
     } catch (error) {
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
+
+      if (error instanceof ShodanApiError) {
+        const isRetryable = error.status >= 500;
+        if (!isRetryable) throw error;
+      }
+
       attempt++;
       if (attempt > retries) {
         throw error;
       }
+      await new Promise((resolve) => setTimeout(resolve, 2000));
     }
   }
   throw new Error('Unreachable: Max retries reached');
