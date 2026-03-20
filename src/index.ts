@@ -10,10 +10,11 @@ export * from './types/facets';
 export * from './types/filters';
 export * from './types/scan';
 export * from './types/search';
+export * from './types/alerts';
 
 export const createShodanClient = (apiKey: string, options?: ShodanClientOptions) => {
   if (!apiKey) {
-    throw new Error('A Shodan API key is required to initialize the client.');
+    throw new ShodanConfigError('A Shodan API key is required to initialize the client.');
   }
 
   const finalOptions: Required<ShodanClientOptions> = {
