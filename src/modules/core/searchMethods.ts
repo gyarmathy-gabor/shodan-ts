@@ -92,6 +92,7 @@ export const buildSearchMethods = (
   /**
    * List all search facets.
    * This method returns a list of facets that can be used to get a breakdown of the top values for a property.
+   * @param options - Optional configuration for this request.
    */
   getSearchFacets: async (options?: ShodanRequestOptions): Promise<SearchFacet[]> =>
     await request(baseUrl, `shodan/host/search/facets`, apiKey, {
@@ -102,6 +103,7 @@ export const buildSearchMethods = (
   /**
    * List all filters that can be used when searching.
    * This method returns a list of search filters that can be used in the search query.
+   * @param options - Optional configuration for this request.
    */
   getSearchFilters: async (options?: ShodanRequestOptions): Promise<SearchFilter[]> =>
     await request(baseUrl, `shodan/host/search/filters`, apiKey, {
