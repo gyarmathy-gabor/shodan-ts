@@ -72,7 +72,7 @@ export async function request<T>(
           url.toString(),
         );
       }
-      return response.json() as Promise<T>;
+      return (await response.json()) as T;
     } catch (error) {
       if (timeoutId) {
         clearTimeout(timeoutId);
