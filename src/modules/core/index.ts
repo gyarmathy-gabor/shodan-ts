@@ -8,6 +8,7 @@ import { buildBulkDataMethods } from './bulkDataMethods';
 import { buildScanningMethods } from './scanningMethods';
 import { buildSearchMethods } from './searchMethods';
 import { buildAlertMethods } from './alertMethods';
+import { buildDirectoryMethods } from './directoryMethods';
 import { ShodanClientOptions } from '../../types/options';
 
 export const buildCoreModule = (apiKey: string, options: Required<ShodanClientOptions>) => ({
@@ -20,4 +21,5 @@ export const buildCoreModule = (apiKey: string, options: Required<ShodanClientOp
   ...buildScanningMethods(SHODAN_CORE_URL, apiKey, options),
   ...buildSearchMethods(SHODAN_CORE_URL, apiKey, options),
   ...buildAlertMethods(SHODAN_CORE_URL, apiKey, options),
+  ...buildDirectoryMethods(SHODAN_CORE_URL, apiKey, options),
 });

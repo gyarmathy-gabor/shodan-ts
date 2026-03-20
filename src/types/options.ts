@@ -96,3 +96,34 @@ export interface SearchOptions extends ShodanRequestOptions {
    */
   fields?: string[];
 }
+
+export interface GetQueriesOptions extends ShodanRequestOptions {
+  /**
+   * Page number to iterate over results; each page contains 10 items
+   */
+  page?: number;
+
+  /**
+   * Sort the list based on a property.
+   */
+  sort?: 'votes' | 'timestamp';
+
+  /**
+   * Whether to sort the list in ascending or descending order.
+   */
+  order?: 'asc' | 'desc';
+}
+
+export interface SearchQueriesOptions extends ShodanRequestOptions {
+  /**
+   * Page number to iterate over results; each page contains 10 items
+   */
+  page?: number;
+}
+
+export interface GetTagsOptions extends ShodanRequestOptions {
+  /**
+   * The number of tags to return (default: 10).
+   */
+  size?: number;
+}

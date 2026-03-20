@@ -11,6 +11,7 @@ export * from './types/filters';
 export * from './types/scan';
 export * from './types/search';
 export * from './types/alerts';
+export * from './types/directory';
 
 export const createShodanClient = (apiKey: string, options?: ShodanClientOptions) => {
   if (!apiKey) {
