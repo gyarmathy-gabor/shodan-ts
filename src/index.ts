@@ -2,6 +2,14 @@ import { buildCoreModule } from './modules/core';
 //import { buildStreamModule } from './modules/stream';
 import { buildTrendsModule } from './modules/trends';
 import { ShodanClientOptions } from './types/options';
+import { ShodanConfigError } from './errors';
+
+export * from './errors';
+export * from './types/options';
+export * from './types/facets';
+export * from './types/filters';
+export * from './types/scan';
+export * from './types/search';
 
 export const createShodanClient = (apiKey: string, options?: ShodanClientOptions) => {
   if (!apiKey) {
