@@ -102,9 +102,27 @@ describe('alertMethods', () => {
     );
   });
 
+  it('enableTriggerForAlert should keep single string of trigger (PUT)', async () => {
+    fetchMock.mockResolvedValue({ ok: true, json: async () => mockAlertActionResponse });
+    await alertMethods.enableTriggerForAlert('ALERT_ID', 'malware');
+    expect(fetchMock).toHaveBeenCalledWith(
+      'https://api.shodan.io/shodan/alert/ALERT_ID/trigger/malware?key=API_KEY',
+      expect.objectContaining({ method: 'PUT' }),
+    );
+  });
+
   it('disableTriggerForAlert should convert array of triggers to comma string (DELETE)', async () => {
     fetchMock.mockResolvedValue({ ok: true, json: async () => mockAlertActionResponse });
-    await alertMethods.disableTriggerForAlert('ALERT_ID', ['malware']);
+    await alertMethods.disableTriggerForAlert('ALERT_ID', ['malware,any']);
+    expect(fetchMock).toHaveBeenCalledWith(
+      'https://api.shodan.io/shodan/alert/ALERT_ID/trigger/malware,any?key=API_KEY',
+      expect.objectContaining({ method: 'DELETE' }),
+    );
+  });
+
+  it('disableTriggerForAlert should keep single string of trigger (DELETE)', async () => {
+    fetchMock.mockResolvedValue({ ok: true, json: async () => mockAlertActionResponse });
+    await alertMethods.disableTriggerForAlert('ALERT_ID', 'malware');
     expect(fetchMock).toHaveBeenCalledWith(
       'https://api.shodan.io/shodan/alert/ALERT_ID/trigger/malware?key=API_KEY',
       expect.objectContaining({ method: 'DELETE' }),
