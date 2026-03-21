@@ -9,7 +9,7 @@ export const buildUtilityMethods = (
   /**
    * Shows the HTTP headers that your client sends when connecting to a webserver.
    */
-  showClientHttpHeaders: async (options?: ShodanRequestOptions) =>
+  showClientHttpHeaders: async (options?: ShodanRequestOptions): Promise<Record<string, string>> =>
     request(baseUrl, '/tools/httpheaders', apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
@@ -18,7 +18,7 @@ export const buildUtilityMethods = (
   /**
    * Get your current IP address as seen from the Internet.
    */
-  showMyIp: async (options?: ShodanRequestOptions) =>
+  showMyIp: async (options?: ShodanRequestOptions): Promise<string> =>
     request(baseUrl, '/tools/myip', apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
