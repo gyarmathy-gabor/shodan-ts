@@ -1,5 +1,4 @@
 import { buildCoreModule } from './modules/core';
-//import { buildStreamModule } from './modules/stream';
 import { buildTrendsModule } from './modules/trends';
 import { ShodanClientOptions } from './types/options';
 import { ShodanConfigError } from './errors';
@@ -33,7 +32,6 @@ export const createShodanClient = (apiKey: string, options?: ShodanClientOptions
 
   return {
     ...buildCoreModule(apiKey, finalOptions),
-    //...buildStreamModule(apiKey),
     ...buildTrendsModule(apiKey, finalOptions),
   };
 };
