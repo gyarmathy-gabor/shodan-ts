@@ -1,5 +1,6 @@
 import { request } from '../../utils/fetcher';
 import { ShodanClientOptions, ShodanRequestOptions } from '../../types/options';
+import { Dataset, DatasetFile } from '../../types/bulkData';
 
 export const buildBulkDataMethods = (
   baseUrl: string,
@@ -10,18 +11,19 @@ export const buildBulkDataMethods = (
    * Use this method to see a list of the datasets that are available for download.
    * @param options - Optional configuration for this request.
    */
-  getAvailableDatasets: async (options?: ShodanRequestOptions) => {
+  getAvailableDatasets: async (options?: ShodanRequestOptions): Promise<Dataset[]> => {
     return request(baseUrl, '/shodan/data', apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
     });
   },
+
   /**
    * Get a list of files that are available for download from the provided dataset.
    * @param dataset - Name of the dataset
    * @param options - Optional configuration for this request.
    */
-  getDataset: async (dataset: string, options?: ShodanRequestOptions) => {
+  getDataset: async (dataset: string, options?: ShodanRequestOptions): Promise<DatasetFile[]> => {
     return request(baseUrl, `shodan/data/${dataset}`, apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
