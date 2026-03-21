@@ -1,5 +1,6 @@
 import { request } from '../../utils/fetcher';
 import { ShodanClientOptions, ShodanRequestOptions } from '../../types/options';
+import { DnsInfoResponse, DnsResolveResponse, DnsReverseResponse } from '../../types/dns';
 
 export const buildDnsMethods = (
   baseUrl: string,
@@ -11,7 +12,7 @@ export const buildDnsMethods = (
    * @param hostname - The target domain name to query (e.g., 'example.com' or 'api.example.com').
    * @param options - Optional configuration for this request.
    */
-  dnsInfo: async (hostname: string, options?: ShodanRequestOptions) => {
+  dnsInfo: async (hostname: string, options?: ShodanRequestOptions): Promise<DnsInfoResponse> => {
     const endpoint = `dns/domain/${hostname}`;
     return request(baseUrl, endpoint, apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
@@ -23,7 +24,10 @@ export const buildDnsMethods = (
    * @param hostnames - A single hostname string or an array of hostnames to resolve.
    * @param options - Optional configuration for this request.
    */
-  dnsResolve: async (hostnames: string[] | string, options?: ShodanRequestOptions) => {
+  dnsResolve: async (
+    hostnames: string[] | string,
+    options?: ShodanRequestOptions,
+  ): Promise<DnsResolveResponse> => {
     const hosts: string = Array.isArray(hostnames) ? hostnames.join(',') : hostnames;
     return request(baseUrl, 'dns/resolve', apiKey, {
       params: { hostnames: hosts },
@@ -36,7 +40,10 @@ export const buildDnsMethods = (
    * @param ipAddresses - A single IPv4/IPv6 address or an array of IP addresses.
    * @param options - Optional configuration for this request.
    */
-  dnsReverse: async (ipAddresses: string[] | string, options?: ShodanRequestOptions) => {
+  dnsReverse: async (
+    ipAddresses: string[] | string,
+    options?: ShodanRequestOptions,
+  ): Promise<DnsReverseResponse> => {
     const ips: string = Array.isArray(ipAddresses) ? ipAddresses.join(',') : ipAddresses;
     return request(baseUrl, 'dns/reverse', apiKey, {
       params: { ips: ips },
