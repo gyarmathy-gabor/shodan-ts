@@ -14,6 +14,7 @@ import {
   ShodanClientOptions,
   ShodanRequestOptions,
 } from '../../types/options';
+import { ShodanApiError } from '../../errors';
 
 export const buildSearchMethods = (
   baseUrl: string,
@@ -34,13 +35,13 @@ export const buildSearchMethods = (
     options?: HostInformationOptions,
   ): Promise<HostInformationResponse | null> => {
     try {
-      return request(baseUrl, `shodan/host/${ip}`, apiKey, {
+      return await request(baseUrl, `shodan/host/${ip}`, apiKey, {
         params: { history: options?.history, minify: options?.minify },
         timeout: options?.timeout ?? globalOptions.timeout,
         retries: options?.retries ?? globalOptions.retries,
       });
     } catch (error) {
-      if (error instanceof Error && error.message.includes('404')) {
+      if (error instanceof ShodanApiError && error.status === 404) {
         return null;
       }
       throw error;
