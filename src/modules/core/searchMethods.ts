@@ -1,5 +1,10 @@
 import { request } from '../../utils/fetcher';
-import { HostInformationResponse, SearchTokensResponse } from '../../types/search';
+import {
+  CountHostsResponse,
+  HostInformationResponse,
+  SearchHostsResponse,
+  SearchTokensResponse,
+} from '../../types/search';
 import { SearchFilter } from '../../types/filters';
 import { SearchFacet } from '../../types/facets';
 import {
@@ -51,7 +56,7 @@ export const buildSearchMethods = (
    * @param query - Shodan search query (e.g., "product:nginx")
    * @param options - Optional configuration for this request.
    */
-  countHosts: async (query: string, options?: CountOptions) => {
+  countHosts: async (query: string, options?: CountOptions): Promise<CountHostsResponse> => {
     const { facets } = options || {};
     const facetsFormatted = Array.isArray(facets) ? facets.join(',') : facets;
     return request(baseUrl, 'shodan/host/count', apiKey, {
@@ -73,7 +78,7 @@ export const buildSearchMethods = (
    * @param query - Shodan search query (e.g., "product:nginx")
    * @param options - Optional configuration for this request.
    */
-  searchHosts: async (query: string, options?: SearchOptions) => {
+  searchHosts: async (query: string, options?: SearchOptions): Promise<SearchHostsResponse> => {
     const { facets, page, minify, fields } = options || {};
     const facetsFormatted = Array.isArray(facets) ? facets.join(',') : facets;
     const fieldsFormatted = Array.isArray(fields) ? fields.join(',') : fields;
