@@ -39,16 +39,24 @@ export async function request<T>(
       timeoutId = setTimeout(() => controller.abort(), timeout);
     }
     try {
-      const response = await fetch(url.toString(), {
+      const isFormData = body instanceof URLSearchParams; // Notifiers endpoint accepts only x-www-form-urlencoded
+
+      const fetchOptions: RequestInit = {
         method,
         signal: controller.signal,
-        ...(body
-          ? {
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(body),
-            }
-          : {}),
-      });
+      };
+
+      if (body) {
+        if (isFormData) {
+          fetchOptions.body = body;
+        } else {
+          fetchOptions.headers = { 'Content-Type': 'application/json' };
+          fetchOptions.body = JSON.stringify(body);
+        }
+      }
+
+      const response = await fetch(url.toString(), fetchOptions);
+
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
