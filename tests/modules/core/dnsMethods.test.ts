@@ -50,6 +50,33 @@ describe('dnsMethods', () => {
     expect(lastCallUrl).toContain('hostnames=google.com%2Cfacebook.com');
   });
 
+  it('dnsResolve should handle a single hostname as query param', async () => {
+    fetchMock.mockResolvedValue({
+      ok: true,
+      json: async () => mockDnsResolveResponse,
+    });
+
+    await dnsMethods.dnsResolve('google.com');
+
+    const lastCallUrl = fetchMock.mock.calls[0]?.[0] as string;
+    expect(lastCallUrl).toContain('hostnames=google.com');
+  });
+
+  it('dnsReverse should handle multiple IP addresses', async () => {
+    fetchMock.mockResolvedValue({
+      ok: true,
+      json: async () => mockDnsReverseResponse,
+    });
+
+    const result = await dnsMethods.dnsReverse(['8.8.8.8', '1.1.1.1']);
+
+    expect(result['8.8.8.8']).toContain('dns.google');
+    expect(result['1.1.1.1']).toContain('one.one.one.one');
+    const lastCallUrl = fetchMock.mock.calls[0]?.[0] as string;
+    expect(lastCallUrl).toContain('ips=8.8.8.8');
+    expect(lastCallUrl).toContain('1.1.1.1');
+  });
+
   it('dnsReverse should handle a single IP address', async () => {
     fetchMock.mockResolvedValue({
       ok: true,
