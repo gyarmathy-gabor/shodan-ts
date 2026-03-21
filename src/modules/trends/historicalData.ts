@@ -5,6 +5,7 @@ import {
   ShodanClientOptions,
   ShodanRequestOptions,
 } from '../../types/options';
+import { HistoricalDataResponse } from '../../types/historical';
 
 export const buildHistoricalDataMethods = (
   baseUrl: string,
@@ -14,7 +15,7 @@ export const buildHistoricalDataMethods = (
   /**
    * This method returns a list of facets that can be used to get a breakdown of the top values for a property.
    */
-  getTrendFacets: async (options?: ShodanRequestOptions) =>
+  getTrendFacets: async (options?: ShodanRequestOptions): Promise<string[]> =>
     request(baseUrl, `api/v1/search/facets`, apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
@@ -22,7 +23,7 @@ export const buildHistoricalDataMethods = (
   /**
    * This method returns a list of search filters that can be used in the search query.
    */
-  getTrendFilters: async (options?: ShodanRequestOptions) =>
+  getTrendFilters: async (options?: ShodanRequestOptions): Promise<string[]> =>
     request(baseUrl, `api/v1/search/filters`, apiKey, {
       timeout: options?.timeout ?? globalOptions.timeout,
       retries: options?.retries ?? globalOptions.retries,
@@ -35,7 +36,7 @@ export const buildHistoricalDataMethods = (
   searchHistoricalData: async (
     filterType: TrendsFilterValue,
     options?: SearchHistoricalDataOptions,
-  ) => {
+  ): Promise<HistoricalDataResponse> => {
     const { facetType, facetLimit, timeout, retries } = options || {};
     const facet = facetType
       ? facetLimit !== undefined
