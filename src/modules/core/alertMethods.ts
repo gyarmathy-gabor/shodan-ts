@@ -202,7 +202,7 @@ export const buildAlertMethods = (
     alertId: string,
     notifierId: string,
     options?: ShodanRequestOptions,
-  ) => {
+  ): Promise<AlertActionResponse> => {
     return request(baseUrl, `shodan/alert/${alertId}/notifier/${notifierId}`, apiKey, {
       method: 'PUT',
       timeout: options?.timeout ?? globalOptions.timeout,
@@ -221,7 +221,7 @@ export const buildAlertMethods = (
     alertId: string,
     notifierId: string,
     options?: ShodanRequestOptions,
-  ) => {
+  ): Promise<AlertActionResponse> => {
     return request(baseUrl, `shodan/alert/${alertId}/notifier/${notifierId}`, apiKey, {
       method: 'DELETE',
       timeout: options?.timeout ?? globalOptions.timeout,
