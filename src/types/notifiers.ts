@@ -42,7 +42,7 @@ export interface Notifier {
   provider: string;
 
   /** A user-defined description of what this notifier is used for. (Optional) */
-  description: string;
+  description: string | null;
 
   /** The specific configuration arguments provided to the service (e.g., {"to": "email@example.com"}). */
   args: Record<string, string>;
