@@ -9,6 +9,7 @@ import { buildScanningMethods } from './scanningMethods';
 import { buildSearchMethods } from './searchMethods';
 import { buildAlertMethods } from './alertMethods';
 import { buildDirectoryMethods } from './directoryMethods';
+import { buildNotifyMethods } from './notifyMethods';
 import { ShodanClientOptions } from '../../types/options';
 
 export const buildCoreModule = (apiKey: string, options: Required<ShodanClientOptions>) => ({
@@ -22,4 +23,5 @@ export const buildCoreModule = (apiKey: string, options: Required<ShodanClientOp
   ...buildSearchMethods(SHODAN_CORE_URL, apiKey, options),
   ...buildAlertMethods(SHODAN_CORE_URL, apiKey, options),
   ...buildDirectoryMethods(SHODAN_CORE_URL, apiKey, options),
+  ...buildNotifyMethods(SHODAN_CORE_URL, apiKey, options),
 });
