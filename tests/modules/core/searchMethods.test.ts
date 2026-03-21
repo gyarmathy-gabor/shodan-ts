@@ -81,6 +81,16 @@ describe('searchMethods', () => {
       expect(lastCallUrl).toContain('query=product%3Anginx');
       expect(lastCallUrl).toContain('facets=org%2Cos');
     });
+
+    it('should throw an error if the API returns a status other than 404', async () => {
+      fetchMock.mockResolvedValue({
+        ok: false,
+        status: 500,
+        statusText: 'Internal Server Error',
+        json: async () => ({ error: 'Server Unavailable.' }),
+      });
+      expect(searchMethods.getHostInformation('127.0.0.1')).rejects.toThrow();
+    });
   });
 
   describe('searchHosts', () => {
