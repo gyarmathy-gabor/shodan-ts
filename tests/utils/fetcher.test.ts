@@ -56,7 +56,6 @@ describe('fetcher retry logic', () => {
 
     await vi.runAllTimersAsync();
 
-    //expect(requestPromise).rejects.toThrow(ShodanApiError);
     await expectPromise;
 
     expect(fetchMock).toHaveBeenCalledTimes(3); // Initial try + 2 retries
