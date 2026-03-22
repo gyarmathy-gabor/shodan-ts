@@ -89,7 +89,7 @@ describe('searchMethods', () => {
         statusText: 'Internal Server Error',
         json: async () => ({ error: 'Server Unavailable.' }),
       });
-      expect(searchMethods.getHostInformation('127.0.0.1')).rejects.toThrow();
+      await expect(searchMethods.getHostInformation('127.0.0.1')).rejects.toThrow();
     });
   });
 
