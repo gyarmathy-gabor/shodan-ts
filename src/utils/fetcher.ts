@@ -1,4 +1,4 @@
-import { ShodanApiError } from '../errors';
+import { ShodanApiError, ShodanConfigError } from '../errors';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
@@ -98,5 +98,7 @@ export async function request<T>(
       await new Promise((resolve) => setTimeout(resolve, 2000));
     }
   }
-  throw new Error('Unreachable: Max retries reached');
+  throw new ShodanConfigError(
+    `Invalid retry count: ${retries}. Retries must be a non-negative integer.`,
+  );
 }
