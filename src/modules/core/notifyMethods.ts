@@ -2,7 +2,7 @@ import { ShodanClientOptions, ShodanRequestOptions } from '../../types/options';
 import { request } from '../../utils/fetcher';
 import {
   ActionSuccessResponse,
-  CreateNotifierPayload,
+  SaveNotifierPayload,
   SaveNotifierResponse,
   GetNotificationProviderResponse,
   GetNotifiersResponse,
@@ -45,7 +45,7 @@ export const buildNotifyMethods = (
    * @param options - Optional configuration for this request.
    */
   createNotifier: async (
-    payload: CreateNotifierPayload,
+    payload: SaveNotifierPayload,
     options?: ShodanRequestOptions,
   ): Promise<SaveNotifierResponse> => {
     const formBody = new URLSearchParams(payload);
@@ -93,7 +93,7 @@ export const buildNotifyMethods = (
    */
   modifyNotifier: async (
     notifierId: string,
-    payload: CreateNotifierPayload,
+    payload: SaveNotifierPayload,
     options?: ShodanRequestOptions,
   ): Promise<SaveNotifierResponse> => {
     const formBody = new URLSearchParams(payload);

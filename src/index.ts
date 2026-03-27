@@ -11,7 +11,19 @@ export * from './types/scan';
 export * from './types/search';
 export * from './types/alerts';
 export * from './types/directory';
+export * from './types/account';
+export * from './types/apiStatus';
+export * from './types/bulkData';
+export * from './types/dns';
+export * from './types/historical';
+export * from './types/organization';
+export * from './types/notifiers';
 
+/**
+ * Creates a new Shodan client instance with the provided API key and options.
+ * @param apiKey - Your official Shodan API key.
+ * @param options - Global configuration options for the client.
+ */
 export const createShodanClient = (apiKey: string, options?: ShodanClientOptions) => {
   if (!apiKey) {
     throw new ShodanConfigError('A Shodan API key is required to initialize the client.');

@@ -15,7 +15,7 @@
  *
  * Each notifier payload must include a `provider` field and can optionally include `description`. Other required properties depend on the provider type.
  */
-export type CreateNotifierPayload =
+export type SaveNotifierPayload =
   | {
       provider: 'jira';
       description?: string;
