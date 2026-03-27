@@ -30,11 +30,11 @@ export const buildHistoricalDataMethods = (
     }),
   /**
    * Get breakdown of historical results aggregate by facet field.
-   * @param filterType - The search query string. Can be a simple keyword (e.g., 'linux') or a filtered search (e.g., 'product:nginx').
+   * @param query - The search query string. Can be a simple keyword (e.g., 'linux') or a filtered search (e.g., 'product:nginx').
    * @param options - Optional configuration for this request.
    */
   searchHistoricalData: async (
-    filterType: TrendsFilterValue,
+    query: TrendsFilterValue,
     options?: SearchHistoricalDataOptions,
   ): Promise<HistoricalDataResponse> => {
     const { facetType, facetLimit, timeout, retries } = options || {};
@@ -46,7 +46,7 @@ export const buildHistoricalDataMethods = (
 
     return request(baseUrl, `api/v1/search`, apiKey, {
       params: {
-        query: filterType,
+        query: query,
         facets: facet,
       },
       timeout: timeout ?? globalOptions.timeout,
