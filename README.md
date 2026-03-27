@@ -18,7 +18,7 @@
 - **Zero Dependencies:** Uses the native Node.js `fetch` API.
 - **TypeScript:** Includes type definitions for all Shodan API requests and responses.
 - **Dual Support:** Works with both ESM (`import`) and CommonJS (`require`).
-- **Full API Coverage:** Implements the complete Shodan REST API (Core and Trends).
+- **Full REST API Coverage:** Implements the complete Shodan REST API (Core and Trends).
 
 ## Prerequisites
 * **Node.js**: `v18.0.0` or higher (Required for native `fetch` support).
@@ -49,7 +49,7 @@ const client = createShodanClient(process.env.SHODAN_API_KEY!);
 
 // 2. Make your request
 const profile = await client.getProfile();
-console.log(`Hello ${profile.display_name}! You have ${profile.credits} credits.`);
+console.log(`Hello ${profile.username}! You have ${profile.credits} credits.`);
 ```
 
 ### Client Configuration
@@ -63,7 +63,7 @@ const client = createShodanClient(process.env.SHODAN_API_KEY!, {
 ```
 
 ### Search and Error Handling
-For production scripts, you can leverage our custom error classes to handle API failures gracefully.
+For production scripts, you can use the custom error classes to handle API errors.
 
 ```typescript
 import { createShodanClient, ShodanApiError } from 'shodan-ts';
@@ -94,7 +94,7 @@ async function searchNginx() {
 searchNginx();
 ```
 
-## API documentation
+## API Documentation
 For a complete list of available methods, configuration options, and TypeScript interfaces, please refer to the full documentation:
 - **[Library API Documentation](./docs/API.md)**
 - **[Advanced Examples](./examples)**
