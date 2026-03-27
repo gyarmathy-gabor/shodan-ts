@@ -1,6 +1,6 @@
 {
   "name": "shodan-ts",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A modern, strongly-typed Node.js client for the Shodan API",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -42,6 +42,9 @@
   ],
   "author": "Gabor Gyarmathy",
   "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^25.3.2",
