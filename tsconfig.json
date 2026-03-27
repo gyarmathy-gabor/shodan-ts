@@ -27,7 +27,12 @@
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    "inlineSources": true
+    "inlineSources": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "shodan-ts": ["src/index.ts"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "coverage"]
